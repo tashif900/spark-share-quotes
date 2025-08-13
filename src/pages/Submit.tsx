@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -24,31 +25,62 @@ export const Submit = () => {
     }
   }, [user, navigate]);
 
+  useEffect(() => {
+    console.log('Submit form state:', { 
+      content: content, 
+      contentLength: content.length, 
+      contentTrimmed: content.trim(), 
+      contentTrimmedLength: content.trim().length,
+      loading: loading,
+      buttonDisabled: loading || !content.trim(),
+      user: user?.id 
+    });
+  }, [content, loading, user]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    console.log('Submit attempt with:', { content: content.trim(), author: author.trim(), userId: user?.id });
+    
+    if (!user) {
+      console.error('No user found');
+      toast.error('Please log in to submit a quote');
+      return;
+    }
+    
+    if (!content.trim()) {
+      console.error('No content provided');
+      toast.error('Please enter quote content');
+      return;
+    }
     
     setLoading(true);
 
     try {
-      const { error } = await supabase
+      console.log('Inserting quote to database...');
+      const { data, error } = await supabase
         .from('quotes')
         .insert({
           content: content.trim(),
           author: author.trim() || null,
           user_id: user.id
-        });
+        })
+        .select();
+
+      console.log('Insert result:', { data, error });
 
       if (error) {
-        toast.error('Failed to submit quote');
+        console.error('Database error:', error);
+        toast.error('Failed to submit quote: ' + error.message);
         return;
       }
 
+      console.log('Quote submitted successfully');
       toast.success('Quote submitted successfully!');
       setContent('');
       setAuthor('');
       navigate('/');
     } catch (error) {
+      console.error('Unexpected error:', error);
       toast.error('An unexpected error occurred');
     } finally {
       setLoading(false);
@@ -58,6 +90,8 @@ export const Submit = () => {
   if (!user) {
     return null;
   }
+
+  const isButtonDisabled = loading || !content.trim();
 
   return (
     <div className="min-h-screen bg-background">
@@ -79,12 +113,18 @@ export const Submit = () => {
                   <Textarea
                     id="content"
                     value={content}
-                    onChange={(e) => setContent(e.target.value)}
+                    onChange={(e) => {
+                      console.log('Content changed to:', e.target.value);
+                      setContent(e.target.value);
+                    }}
                     required
                     placeholder="Enter the quote content..."
                     rows={4}
                     className="resize-none"
                   />
+                  <div className="text-sm text-muted-foreground">
+                    Characters: {content.length}
+                  </div>
                 </div>
                 
                 <div className="space-y-2">
@@ -99,12 +139,22 @@ export const Submit = () => {
                 </div>
                 
                 <div className="flex gap-4">
-                  <Button type="submit" disabled={loading || !content.trim()}>
+                  <Button 
+                    type="submit" 
+                    disabled={isButtonDisabled}
+                    className={isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}
+                  >
                     {loading ? 'Submitting...' : 'Submit Quote'}
                   </Button>
                   <Button type="button" variant="outline" onClick={() => navigate('/')}>
                     Cancel
                   </Button>
+                </div>
+                
+                <div className="text-sm text-muted-foreground">
+                  Debug: Button disabled = {isButtonDisabled.toString()}, 
+                  Loading = {loading.toString()}, 
+                  Content empty = {(!content.trim()).toString()}
                 </div>
               </form>
             </CardContent>
