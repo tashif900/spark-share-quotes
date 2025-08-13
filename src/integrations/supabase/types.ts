@@ -14,33 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      profiles: {
-        Row: {
-          created_at: string
-          full_name: string | null
-          id: string
-          updated_at: string
-          user_id: string
-          username: string
-        }
-        Insert: {
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          updated_at?: string
-          user_id: string
-          username: string
-        }
-        Update: {
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          updated_at?: string
-          user_id?: string
-          username?: string
-        }
-        Relationships: []
-      }
       quotes: {
         Row: {
           author: string | null
@@ -71,10 +44,37 @@ export type Database = {
             foreignKeyName: "quotes_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
+            referencedRelation: "users"
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
       }
     }
     Views: {
