@@ -45,7 +45,7 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -55,15 +55,13 @@ export type Database = {
           full_name: string | null
           id: string
           updated_at: string
-          user_id: string
           username: string
         }
         Insert: {
           created_at?: string
           full_name?: string | null
-          id?: string
+          id: string
           updated_at?: string
-          user_id: string
           username: string
         }
         Update: {
@@ -71,7 +69,6 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
-          user_id?: string
           username?: string
         }
         Relationships: []
