@@ -72,9 +72,9 @@ export const Profile = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-12 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 rounded-2xl blur-2xl" />
-          <div className="relative z-10">
+        <div className="flex items-center justify-between mb-12 relative z-10">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 rounded-2xl blur-2xl -z-10" />
+          <div>
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">
               Your Quotes
             </h1>
@@ -86,11 +86,8 @@ export const Profile = () => {
             </p>
           </div>
           <Button 
-            onClick={() => {
-              console.log('Add Quote button clicked');
-              navigate('/submit');
-            }}
-            className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            onClick={() => navigate('/submit')}
+            className="relative z-20 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Quote
