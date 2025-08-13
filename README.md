@@ -186,7 +186,7 @@ Navigate to `http://localhost:5173`
 ## 🚀 Deployment
 
 ### Lovable Deployment
-1. Visit your [Lovable Project](https://lovable.dev/projects/f2a3ccba-647c-47c1-8706-01a7d3175d75)
+1. Visit your [Lovable Project](https://spark-share-quotes.lovable.app)
 2. Click on Share → Publish
 3. Your app will be deployed automatically
 
