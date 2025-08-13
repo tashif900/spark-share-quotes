@@ -72,14 +72,23 @@ export const Profile = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Your Quotes</h1>
-            <p className="text-muted-foreground mt-2">
-              {quotes.length} {quotes.length === 1 ? 'quote' : 'quotes'} shared
+        <div className="flex items-center justify-between mb-12 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 rounded-2xl blur-2xl" />
+          <div className="relative z-10">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">
+              Your Quotes
+            </h1>
+            <p className="text-lg text-muted-foreground flex items-center">
+              <span className="inline-flex items-center justify-center w-6 h-6 bg-primary/20 text-primary text-sm font-semibold rounded-full mr-3">
+                {quotes.length}
+              </span>
+              {quotes.length === 1 ? 'inspiring quote' : 'inspiring quotes'} shared
             </p>
           </div>
-          <Button onClick={() => navigate('/submit')}>
+          <Button 
+            onClick={() => navigate('/submit')}
+            className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Add Quote
           </Button>
@@ -100,20 +109,31 @@ export const Profile = () => {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {quotes.map((quote) => (
-              <QuoteCard
-                key={quote.id}
-                id={quote.id}
-                content={quote.content}
-                author={quote.author || undefined}
-                username={quote.users.username}
-                userId={user.id}
-                createdAt={quote.created_at}
-                showDeleteButton={true}
-                onDelete={fetchUserQuotes}
-              />
-            ))}
+          <div className="relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
+              {quotes.map((quote, index) => (
+                <div 
+                  key={quote.id}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <QuoteCard
+                    id={quote.id}
+                    content={quote.content}
+                    author={quote.author || undefined}
+                    username={quote.users.username}
+                    userId={user.id}
+                    createdAt={quote.created_at}
+                    showDeleteButton={true}
+                    onDelete={fetchUserQuotes}
+                  />
+                </div>
+              ))}
+            </div>
+            
+            {/* Decorative background elements */}
+            <div className="absolute -top-32 -right-32 w-64 h-64 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 -left-32 w-64 h-64 bg-gradient-to-tr from-accent/5 to-transparent rounded-full blur-3xl pointer-events-none" />
           </div>
         )}
       </div>

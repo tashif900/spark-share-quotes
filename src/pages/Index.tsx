@@ -62,20 +62,28 @@ const Index = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            Discover Inspiring Quotes
-          </h1>
-          <p className="text-xl text-muted-foreground mb-8">
-            A community-driven collection of wisdom and inspiration
-          </p>
-          
-          {user && (
-            <Button onClick={() => navigate('/submit')} size="lg">
-              <Plus className="h-5 w-5 mr-2" />
-              Share a Quote
-            </Button>
-          )}
+        {/* Hero Section */}
+        <div className="text-center mb-16 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 rounded-3xl blur-3xl" />
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-6 animate-fade-in">
+              Discover Inspiring Quotes
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+              A beautiful community-driven collection of wisdom, inspiration, and meaningful thoughts
+            </p>
+            
+            {user && (
+              <Button 
+                onClick={() => navigate('/submit')} 
+                size="lg"
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                <Plus className="h-5 w-5 mr-2" />
+                Share a Quote
+              </Button>
+            )}
+          </div>
         </div>
 
         {loading ? (
@@ -99,19 +107,30 @@ const Index = () => {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {quotes.map((quote) => (
-              <QuoteCard
-                key={quote.id}
-                id={quote.id}
-                content={quote.content}
-                author={quote.author || undefined}
-                username={quote.users.username}
-                userId={quote.user_id}
-                createdAt={quote.created_at}
-                showDeleteButton={false}
-              />
-            ))}
+          <div className="relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
+              {quotes.map((quote, index) => (
+                <div 
+                  key={quote.id}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <QuoteCard
+                    id={quote.id}
+                    content={quote.content}
+                    author={quote.author || undefined}
+                    username={quote.users.username}
+                    userId={quote.user_id}
+                    createdAt={quote.created_at}
+                    showDeleteButton={false}
+                  />
+                </div>
+              ))}
+            </div>
+            
+            {/* Decorative background elements */}
+            <div className="absolute -top-32 -right-32 w-64 h-64 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 -left-32 w-64 h-64 bg-gradient-to-tr from-accent/5 to-transparent rounded-full blur-3xl pointer-events-none" />
           </div>
         )}
       </div>
