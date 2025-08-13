@@ -86,7 +86,10 @@ export const Profile = () => {
             </p>
           </div>
           <Button 
-            onClick={() => navigate('/submit')}
+            onClick={() => {
+              console.log('Add Quote button clicked');
+              navigate('/submit');
+            }}
             className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             <Plus className="h-4 w-4 mr-2" />
