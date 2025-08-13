@@ -36,9 +36,7 @@ export const Auth = () => {
         toast.error(error.message);
       } else {
         toast.success(isSignup ? 'Account created successfully!' : 'Signed in successfully!');
-        if (!isSignup) {
-          navigate('/');
-        }
+        navigate('/');
       }
     } catch (error) {
       toast.error('An unexpected error occurred');
@@ -49,8 +47,15 @@ export const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-6">
+          <Button variant="ghost" onClick={() => navigate('/')} className="mb-4">
+            ← Back to Home
+          </Button>
+        </div>
+        
+        <Card className="w-full">
+          <CardHeader className="text-center">
           <CardTitle>{isSignup ? 'Create Account' : 'Welcome Back'}</CardTitle>
           <CardDescription>
             {isSignup 
@@ -113,6 +118,7 @@ export const Auth = () => {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
